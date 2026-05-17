@@ -6,13 +6,16 @@ NutriMind AI is a production-ready Android application designed for intelligent 
 
 | Home Dashboard | Scanner | AI Analysis |
 | :---: | :---: | :---: |
-| ![Home](screenshots/home.png) | ![Scanner](screenshots/scanner.png) | ![Analysis](screenshots/analysis.png) |
+| ![Home](https://placehold.co/600x1200/F3E5F5/6750A4?text=Home+Dashboard\nProgress+Rings) | ![Scanner](https://placehold.co/600x1200/E3F2FD/1976D2?text=AI+Scanner\nBarcode+%2B+OCR) | ![Analysis](https://placehold.co/600x1200/E8F5E9/2E7D32?text=AI+Analysis\nNutrition+Insights) |
 
 | Chat with AI | Progress Charts | Health Goals |
 | :---: | :---: | :---: |
-| ![Chat](screenshots/chat.png) | ![Charts](screenshots/charts.png) | ![Goals](screenshots/goals.png) |
+| ![Chat](https://placehold.co/600x1200/FFF3E0/E65100?text=AI+Assistant\nSmart+Chat) | ![Charts](https://placehold.co/600x1200/F3E5F5/6750A4?text=Analytics\nWeekly+Trends) | ![Goals](https://placehold.co/600x1200/E3F2FD/1976D2?text=Health+Goals\nPersonalized+Setup) |
 
-*(Note: Please place your screenshot images in the `/screenshots` directory with the names matching above to display them here.)*
+> **Note**: The images above are placeholders. To display your actual app screenshots:
+> 1. Take screenshots of your app.
+> 2. Save them as `home.png`, `scanner.png`, etc. in the `/screenshots` directory.
+> 3. Update the URLs in this README to `screenshots/home.png`, etc.
 
 ## ✨ Features
 

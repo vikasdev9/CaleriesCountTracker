@@ -1,0 +1,101 @@
+# Built application files
+*.apk
+*.ap_
+*.aab
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+build/
+*/build/
+
+# Gradle files
+.gradle/
+!gradle-wrapper.jar
+
+# Local configuration
+local.properties
+
+# Android Studio
+.idea/
+*.iml
+.navigation/
+captures/
+
+# Keystore files
+*.jks
+*.keystore
+
+# Log Files
+*.log
+
+# Kotlin
+.kotlin/
+
+# External native build
+.externalNativeBuild/
+.cxx/
+
+# Google Services
+google-services.json
+
+# Firebase config backups
+firebase.json
+
+# DS Store
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+
+# Mac files
+.AppleDouble
+.LSOverride
+
+# Windows files
+Thumbs.db
+ehthumbs.db
+
+# VS Code
+.vscode/
+
+# Secrets
+.env
+.env.local
+secrets.properties
+
+# Compose compiler
+compose_compiler/
+
+# NDK
+obj/
+
+# Crashlytics
+crashlytics.properties
+
+# Generated captures
+captures/
+
+# Test outputs
+test-output/
+
+# Coverage reports
+coverage/
+
+# IDE cache
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+
+# Kotlin metadata
+*.kotlin_module

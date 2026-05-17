@@ -22,20 +22,48 @@ class AiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun analyzeFood(foodName: String): NutritionAnalysis {
-        val prompt = "Analyze the nutrition of $foodName. Return a JSON with healthScore (0-100), rating (GOOD, BAD, or WORST), summary, highlights (list), risks (list), recommendations, and alternatives (list)."
+        val prompt = """
+            Analyze the nutrition of $foodName. 
+            Return ONLY a valid JSON object with these fields:
+            - healthScore (0-100)
+            - rating (strictly "GOOD", "BAD", or "WORST")
+            - summary (brief overview)
+            - highlights (list of benefits)
+            - risks (list of concerns like high sugar, sodium, or preservatives)
+            - recommendations (how to consume it)
+            - alternatives (list of 2-3 healthier options)
+            
+            Be strict and scientific. If it's highly processed, rate it BAD or WORST.
+        """.trimIndent()
+        
         val response = generativeModel.generateContent(prompt)
         return try {
-            gson.fromJson(response.text, NutritionAnalysis::class.java)
+            val jsonText = response.text?.replace("```json", "")?.replace("```", "")?.trim() ?: ""
+            gson.fromJson(jsonText, NutritionAnalysis::class.java)
         } catch (e: Exception) {
             fallbackAnalysis(foodName)
         }
     }
 
     override suspend fun analyzeIngredients(ocrText: String): NutritionAnalysis {
-        val prompt = "Analyze these ingredients from a product label: $ocrText. Return a JSON with healthScore (0-100), rating (GOOD, BAD, or WORST), summary, highlights (list), risks (list), recommendations, and alternatives (list)."
+        val prompt = """
+            Analyze these ingredients from a product label: $ocrText.
+            Return ONLY a valid JSON object with these fields:
+            - healthScore (0-100)
+            - rating (strictly "GOOD", "BAD", or "WORST")
+            - summary (brief overview of ingredient quality)
+            - highlights (any good ingredients found)
+            - risks (specific harmful additives, preservatives, high sugar, or sodium detected)
+            - recommendations (final verdict)
+            - alternatives (list of 2-3 healthier options)
+            
+            Be very detailed about artificial additives and preservatives.
+        """.trimIndent()
+        
         val response = generativeModel.generateContent(prompt)
         return try {
-            gson.fromJson(response.text, NutritionAnalysis::class.java)
+            val jsonText = response.text?.replace("```json", "")?.replace("```", "")?.trim() ?: ""
+            gson.fromJson(jsonText, NutritionAnalysis::class.java)
         } catch (e: Exception) {
             fallbackAnalysis("Scanned Ingredients")
         }

@@ -60,31 +60,46 @@ fun ScanResultScreen(
             
             Spacer(modifier = Modifier.height(16.dp))
             
-            Text("AI Analysis", fontWeight = FontWeight.Bold)
-            Text(analysis.summary, style = MaterialTheme.typography.bodyMedium)
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                item { Text("Highlights", fontWeight = FontWeight.SemiBold) }
-                items(analysis.highlights) { Text("• $it") }
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.weight(1f)
+            ) {
+                item { 
+                    Text("Summary", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium)
+                    Text(analysis.summary, style = MaterialTheme.typography.bodyMedium)
+                }
                 
-                item { Spacer(modifier = Modifier.height(8.dp)) }
+                if (analysis.highlights.isNotEmpty()) {
+                    item { Spacer(modifier = Modifier.height(8.dp)) }
+                    item { Text("✨ Highlights", fontWeight = FontWeight.Bold, color = Color(0xFF2E7D32)) }
+                    items(analysis.highlights) { Text("• $it", style = MaterialTheme.typography.bodySmall) }
+                }
                 
-                item { Text("Risks", fontWeight = FontWeight.SemiBold, color = Color.Red) }
-                items(analysis.risks) { Text("• $it") }
-                
-                item { Spacer(modifier = Modifier.height(16.dp)) }
-                
-                item {
-                    Button(
-                        onClick = onClose,
-                        modifier = Modifier.fillMaxWidth().height(56.dp),
-                        shape = RoundedCornerShape(16.dp)
-                    ) {
-                        Text("Done")
+                if (analysis.risks.isNotEmpty()) {
+                    item { Spacer(modifier = Modifier.height(8.dp)) }
+                    item { Text("⚠️ Risks", fontWeight = FontWeight.Bold, color = Color.Red) }
+                    items(analysis.risks) { Text("• $it", style = MaterialTheme.typography.bodySmall) }
+                }
+
+                if (analysis.alternatives.isNotEmpty()) {
+                    item { Spacer(modifier = Modifier.height(16.dp)) }
+                    item { Text("💡 Healthy Alternatives", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary) }
+                    items(analysis.alternatives) { 
+                        NutriCard(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)) {
+                            Text(it, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.bodySmall)
+                        }
                     }
                 }
+                
+                item { Spacer(modifier = Modifier.height(16.dp)) }
+            }
+
+            Button(
+                onClick = onClose,
+                modifier = Modifier.fillMaxWidth().height(56.dp),
+                shape = RoundedCornerShape(20.dp)
+            ) {
+                Text("Close Analysis", fontWeight = FontWeight.Bold)
             }
         }
     }

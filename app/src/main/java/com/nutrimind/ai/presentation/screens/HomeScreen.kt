@@ -3,6 +3,7 @@ package com.nutrimind.ai.presentation.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Notifications
@@ -16,11 +17,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.nutrimind.ai.presentation.components.BarChart
 import com.nutrimind.ai.presentation.components.DailyProgressRing
 import com.nutrimind.ai.presentation.components.NutriCard
 import com.nutrimind.ai.presentation.viewmodel.HomeViewModel
 import com.nutrimind.ai.ui.theme.Lavender
 import com.nutrimind.ai.ui.theme.SoftBlue
+import com.nutrimind.ai.ui.theme.MintGreen
+import com.nutrimind.ai.ui.theme.Peach
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +37,12 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Hello, NutriMind", fontWeight = FontWeight.Bold) },
+                title = { 
+                    Column {
+                        Text("Hello, NutriMind", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                        Text("Ready to track your day?", style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+                    }
+                },
                 actions = {
                     IconButton(onClick = {}) {
                         Icon(Icons.Default.Notifications, contentDescription = null)
@@ -43,14 +52,14 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
+            ExtendedFloatingActionButton(
                 onClick = onAddFood,
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = Color.White,
-                shape = MaterialTheme.shapes.large
-            ) {
-                Icon(Icons.Default.Add, contentDescription = "Add Food")
-            }
+                shape = RoundedCornerShape(20.dp),
+                icon = { Icon(Icons.Default.Add, contentDescription = null) },
+                text = { Text("Log Food") }
+            )
         }
     ) { padding ->
         LazyColumn(
@@ -68,13 +77,13 @@ fun HomeScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text("Today", style = MaterialTheme.typography.titleMedium)
+                            Text("Calorie Budget", style = MaterialTheme.typography.titleSmall, color = Color.DarkGray)
                             Text(
                                 "${uiState.consumedCalories} / ${uiState.targetCalories}",
                                 style = MaterialTheme.typography.headlineMedium,
                                 fontWeight = FontWeight.Black
                             )
-                            Text("kcal consumed", style = MaterialTheme.typography.bodySmall)
+                            Text("kcal consumed today", style = MaterialTheme.typography.labelMedium)
                         }
                         DailyProgressRing(
                             progress = (uiState.consumedCalories.toFloat() / uiState.targetCalories.coerceAtLeast(1)),
@@ -87,6 +96,17 @@ fun HomeScreen(
                             )
                         }
                     }
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        MacroItem("Protein", "${uiState.consumedProtein}g", Color(0xFF64B5F6))
+                        MacroItem("Carbs", "${uiState.consumedCarbs}g", Color(0xFFFFB74D))
+                        MacroItem("Fats", "${uiState.consumedFats}g", Color(0xFF81C784))
+                    }
                 }
             }
 
@@ -96,32 +116,38 @@ fun HomeScreen(
                         modifier = Modifier.weight(1f),
                         containerColor = SoftBlue
                     ) {
-                        Icon(Icons.Default.WaterDrop, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.WaterDrop, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Water", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+                        }
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text("Water", fontWeight = FontWeight.Bold)
-                        Text("${uiState.waterIntake} / 2000 ml", style = MaterialTheme.typography.bodySmall)
+                        Text("${uiState.waterIntake} ml", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                        Text("Goal: 2000 ml", style = MaterialTheme.typography.labelSmall)
                     }
                     NutriCard(
                         modifier = Modifier.weight(1f),
-                        containerColor = Color(0xFFFFE0E0) // Soft Red
+                        containerColor = Peach
                     ) {
-                        Text("🔥", fontSize = 24.sp)
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("🔥", fontSize = 18.sp)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Streak", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+                        }
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text("Streak", fontWeight = FontWeight.Bold)
-                        Text("7 Days", style = MaterialTheme.typography.bodySmall)
+                        Text("7 Days", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                        Text("Keep it up!", style = MaterialTheme.typography.labelSmall)
                     }
                 }
             }
 
             item {
-                NutriCard(containerColor = Color(0xFFE8F5E9)) {
+                NutriCard(containerColor = MintGreen) {
                     Column {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text("✨ AI Suggestion", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
-                        }
+                        Text("✨ AI Health Insight", fontWeight = FontWeight.Bold, color = Color(0xFF2E7D32))
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            "You are doing great! Try to add more protein to your breakfast to stay full longer.",
+                            "You're 200kcal below your target. Adding a protein-rich snack like greek yogurt could help you reach your goals.",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
@@ -129,7 +155,28 @@ fun HomeScreen(
             }
 
             item {
-                Text("Recent Meals", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Text("Weekly Analytics", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            }
+
+            item {
+                NutriCard {
+                    Text("Calorie Trends", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    BarChart(data = uiState.weeklyCalories)
+                }
+            }
+
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Today's Meals", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    TextButton(onClick = {}) {
+                        Text("See All")
+                    }
+                }
             }
 
             items(uiState.dailyEntries) { entry ->
@@ -138,6 +185,14 @@ fun HomeScreen(
             
             item { Spacer(modifier = Modifier.height(80.dp)) }
         }
+    }
+}
+
+@Composable
+fun MacroItem(label: String, value: String, color: Color) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(value, fontWeight = FontWeight.Bold, color = color)
+        Text(label, style = MaterialTheme.typography.labelSmall, color = Color.Gray)
     }
 }
 

@@ -2,6 +2,18 @@
 
 NutriMind AI is a production-ready Android application designed for intelligent nutrition tracking and personalized health insights. Built with modern Android technologies and Clean Architecture, it integrates Gemini AI to provide a premium user experience.
 
+## 📱 Screenshots
+
+| Home Dashboard | Scanner | AI Analysis |
+| :---: | :---: | :---: |
+| ![Home](screenshots/home.png) | ![Scanner](screenshots/scanner.png) | ![Analysis](screenshots/analysis.png) |
+
+| Chat with AI | Progress Charts | Health Goals |
+| :---: | :---: | :---: |
+| ![Chat](screenshots/chat.png) | ![Charts](screenshots/charts.png) | ![Goals](screenshots/goals.png) |
+
+*(Note: Please place your screenshot images in the `/screenshots` directory with the names matching above to display them here.)*
+
 ## ✨ Features
 
 - **AI-Powered Nutrition Tracking**: Analyze food and ingredients instantly using Gemini AI.
@@ -35,14 +47,9 @@ NutriMind AI is a production-ready Android application designed for intelligent 
 ### 2. Setup
 1. Clone the repository.
 2. Add your `google-services.json` to the `app/` directory.
-3. Open `D:/GitHubRepository/CaleriesTrackerAi/app/src/main/java/com/nutrimind/ai/di/AppModule.kt` and replace the placeholder with your **Gemini API Key**:
-   ```kotlin
-   fun provideGenerativeModel(): GenerativeModel {
-       return GenerativeModel(
-           modelName = "gemini-1.5-flash",
-           apiKey = "YOUR_API_KEY_HERE"
-       )
-   }
+3. Open `local.properties` in the project root and add your **Gemini API Key**:
+   ```properties
+   gemini.api.key=YOUR_ACTUAL_API_KEY_HERE
    ```
 4. Sync Gradle and run the app.
 

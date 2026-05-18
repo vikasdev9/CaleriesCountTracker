@@ -30,7 +30,7 @@ import com.nutrimind.ai.ui.theme.Peach
 @Composable
 fun HomeScreen(
     onAddFood: () -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
